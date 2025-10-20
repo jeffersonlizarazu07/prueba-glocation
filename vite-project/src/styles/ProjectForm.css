@@ -1,0 +1,299 @@
+/* Modal Overlay */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  animation: fadeIn 0.3s ease-out;
+  pointer-events: auto;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Modal Container */
+.modal-container {
+  background: var(--white);
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  width: 100%;
+  max-width: 500px;
+  max-height: 90vh;
+  animation: slideUp 0.3s ease-out;
+  pointer-events: auto;
+  z-index: 1001;
+}
+
+@keyframes slideUp {
+  from { 
+    opacity: 0; 
+    transform: translateY(30px) scale(0.95); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0) scale(1); 
+  }
+}
+
+/* Modal Header */
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px;
+  border-bottom: 1px solid #f0f0f0;
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+}
+
+.modal-header h3 {
+  margin: 0;
+  font-size: 1.4rem;
+  color: var(--primary);
+  font-weight: 700;
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: var(--muted);
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+}
+
+.modal-close:hover {
+  background: rgba(224, 36, 36, 0.1);
+  color: var(--danger);
+  transform: scale(1.1);
+}
+
+/* Modal Form */
+.modal-form {
+  display: flex;
+  flex-direction: column;
+  height: calc(100% - 80px);
+}
+
+.form-content {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+}
+
+/* Form Groups */
+.form-group {
+  margin-bottom: 0 20px 0 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid #e2e8f0;
+  border-radius: 10px;
+  font-size: 14px;
+  background: var(--white);
+  transition: all 0.2s ease;
+  font-family: inherit;
+  color: var(--text);                
+  caret-color: var(--primary);       
+  -webkit-text-fill-color: var(--text);
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(31, 58, 147, 0.1);
+  transform: translateY(-1px);
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+  color: #a0aec0;
+  font-style: italic;
+}
+
+/* Form Row */
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+/* Modal Actions */
+.modal-actions {
+  display: flex;
+  gap: 12px;
+  padding: 20px 24px;
+  border-top: 1px solid #f0f0f0;
+  background: #f8fafc;
+  justify-content: center;
+}
+
+.modal-actions .btn {
+  flex: 1;
+  padding: 12px 20px;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 14px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  border: 2px solid transparent;
+}
+
+.btnAceptOrUbdate {
+  background: var(--primary);
+  color: var(--white);
+  border-color: var(--primary);
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: var(--primary-2);
+  border-color: var(--primary-2);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(31, 58, 147, 0.3);
+}
+
+.btnCancel {
+  background: var(--white);
+  color: var(--white);
+  border-color: #f0eae2;
+  background-color: var(--danger);
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background: #f8fafc;
+  border-color: #cbd5e0;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+/* Asegura que el input date se vea correctamente */
+.form-group input[type="date"] {
+  color: var(--text);
+  -webkit-text-fill-color: var(--text); /* importante para WebKit */
+  background: var(--white);
+}
+
+/* Hace visible el icono del calendario en Chrome/Safari/Edge */
+.form-group input[type="date"]::-webkit-calendar-picker-indicator {
+  opacity: 1;
+  cursor: pointer;
+  filter: invert(0); /* evita que el icono se vea transparente */
+}
+
+/* Opcional: en Firefox */
+.form-group input[type="date"]::-moz-calendar-picker-indicator {
+  cursor: pointer;
+}
+
+.form-group input[type="date"] {
+  background: #a69d9d;      /* fondo blanco */
+  color: var(--text);       /* texto visible */
+  padding: 6px 12px;        /* padding cómodo para el botón */
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  -webkit-appearance: textfield; /* permite edición manual */
+  appearance: textfield;
+}
+
+/* Icono del calendario */
+.form-group input[type="date"]::-webkit-calendar-picker-indicator {
+  opacity: 1 !important;          /* siempre visible */
+  cursor: pointer;
+  filter: invert(0);              /* evita que desaparezca con fondo blanco */
+  position: absolute;             /* asegura que se dibuje sobre el input */
+  right: 8px; 
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .modal-overlay {
+    padding: 10px;
+  }
+  
+  .modal-container {
+    max-width: 100%;
+    max-height: 95vh;
+  }
+  
+  .modal-header {
+    padding: 16px 20px;
+  }
+  
+  .modal-header h3 {
+    font-size: 1.2rem;
+  }
+  
+  .form-content {
+    padding: 20px;
+  }
+  
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  
+  .modal-actions {
+    padding: 16px 20px;
+    flex-direction: column;
+  }
+  
+  .modal-actions .btn {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .modal-header {
+    padding: 12px 16px;
+  }
+  
+  .form-content {
+    padding: 16px;
+  }
+  
+  .modal-actions {
+    padding: 12px 16px;
+  }
+}
