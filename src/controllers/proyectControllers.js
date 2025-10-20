@@ -4,25 +4,20 @@ import { groq } from "../config.js";
 /* CRUD básico */
 export const createProyect = async (req, res) => {
   try {
-    const id = Number(req.params.id);
-    const proyecto = await prisma.proyecto.findUnique({
-      where: { id },
-      select: { descripcion: true },
+    const { nombre, descripcion, estado, fechaInicio, fechaFin } = req.body;
+    const proyect = await prisma.proyecto.create({
+      data: {
+        nombre,
+        descripcion,
+        estado,
+        fechaInicio: new Date(fechaInicio),
+        fechaFin: new Date(fechaFin),
+      },
     });
-
-    if (!proyecto)
-      return res.status(404).json({ error: "Proyecto no encontrado" });
-
-    // Llamada a la API de IA con la descripción de un solo proyecto
-    const resumen = `Resumen simulado de proyecto: ${proyecto.descripcion.slice(
-      0,
-      100
-    )}...`;
-
-    res.json({ resumen });
+    res.status(201).json(proyect);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Error generando resumen" });
+    res.status(500).json({ error: 'Error creando proyecto' });
   }
 };
 
