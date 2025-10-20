@@ -81,18 +81,45 @@ export const deleteProyect = async (req, res) => {
 /* /graficos -> agregados */
 export const proyectGraphics = async (req, res) => {
   try {
+    // Contar proyectos totales
+    const totalProyectos = await prisma.proyecto.count();
+
+    // Agrupar proyectos por estado
     const resultados = await prisma.proyecto.groupBy({
-      by: ["estado"], // Agrupamos por estado
-      _count: { estado: true }, // Contamos proyectos por estado
-      orderBy: { estado: "asc" }, // Opcional: orden alfabético
+      by: ["estado"],
+      _count: { estado: true },
+      orderBy: { estado: "asc" },
     });
 
     const data = resultados.map((r) => ({
-      estado: r.estado,
-      cantidad: r._count.estado,
+      estado: r.estado || "Desconocido",
+      count: r._count?.estado ?? 0,
     }));
 
-    res.json(data);
+    // Agrupar proyectos por año (fechaInicio) en el backend (DB-agnóstico)
+    const proyectosConFechas = await prisma.proyecto.findMany({
+      select: { fechaInicio: true },
+    });
+
+    const yearMap = {};
+    proyectosConFechas.forEach((p) => {
+      const d = p?.fechaInicio ? new Date(p.fechaInicio) : null;
+      if (d instanceof Date && !isNaN(d)) {
+        const y = String(d.getFullYear());
+        yearMap[y] = (yearMap[y] || 0) + 1;
+      }
+    });
+
+    const yearData = Object.keys(yearMap)
+      .sort((a, b) => Number(a) - Number(b))
+      .map((y) => ({ year: y, count: yearMap[y] }));
+
+    // Enviar total, datos por estado y datos por año
+    res.json({
+      totalProyectos,
+      data,     // [{ estado, count }]
+      yearData, // [{ year, count }]
+    });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Error generando gráficos de proyectos" });
