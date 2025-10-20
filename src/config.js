@@ -1,8 +1,8 @@
 import dotenv from 'dotenv'
-// import { Configuration, OpenAIApi } from "openai";
+import Groq from "groq-sdk";
 
 dotenv.config();
 
 export const PORT = 3000;
 
-// export const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
+export const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });

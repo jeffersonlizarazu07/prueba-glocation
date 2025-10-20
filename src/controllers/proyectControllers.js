@@ -1,5 +1,5 @@
 import prisma from "../prismaClient.js";
-import openAI from "openai";
+import { groq } from "../config.js";
 
 /* CRUD básico */
 export const createProyect = async (req, res) => {
@@ -7,18 +7,22 @@ export const createProyect = async (req, res) => {
     const id = Number(req.params.id);
     const proyecto = await prisma.proyecto.findUnique({
       where: { id },
-      select: { descripcion: true }
+      select: { descripcion: true },
     });
 
-    if (!proyecto) return res.status(404).json({ error: 'Proyecto no encontrado' });
+    if (!proyecto)
+      return res.status(404).json({ error: "Proyecto no encontrado" });
 
     // Llamada a la API de IA con la descripción de un solo proyecto
-    const resumen = `Resumen simulado de proyecto: ${proyecto.descripcion.slice(0, 100)}...`;
+    const resumen = `Resumen simulado de proyecto: ${proyecto.descripcion.slice(
+      0,
+      100
+    )}...`;
 
     res.json({ resumen });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Error generando resumen' });
+    res.status(500).json({ error: "Error generando resumen" });
   }
 };
 
@@ -101,29 +105,54 @@ export const proyectGraphics = async (req, res) => {
 };
 
 /* /analisis -> resumen de descripciones (placeholder + ejemplo integración AI) */
-const openai = new openAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
-
 export const proyectAnalysis = async (req, res) => {
   try {
     const proyectos = await prisma.proyecto.findMany({
       select: { descripcion: true },
     });
-    const descripciones = proyectos.map((p) => p.descripcion).join(" ");
 
-    const prompt = `Genera un resumen breve de los siguientes proyectos: ${descripciones}`;
+    if (!proyectos.length) {
+      return res.status(400).json({ error: "No hay proyectos para analizar" });
+    }
 
-    const response = await openai.chat.completions.create({
-      model: "gpt-3.5-turbo",
+    // Concatenar descripciones
+    const textoDescripciones = proyectos
+      .map((p) => p.descripcion)
+      .join(". ")
+      .slice(0, 16000);
+
+    // Prompt para Groq
+    const prompt = `
+      A partir de las siguientes descripciones de proyectos,
+      genera un resumen profesional en español que explique
+      el objetivo general de los proyectos y su enfoque,
+      sin inventar información adicional.
+      ---
+      ${textoDescripciones}
+    `;
+
+    // Llamada a Groq con modelo actualizado
+    const completion = await groq.chat.completions.create({
+      model: "llama-3.3-70b-versatile", // Versión del modelo actualizada
       messages: [{ role: "user", content: prompt }],
+      max_tokens: 350,
+      temperature: 0.4,
     });
 
-    const resumen = response.choices[0].message.content;
+    const resumen =
+      completion?.choices?.[0]?.message?.content ||
+      "No fue posible generar un resumen.";
 
-    res.json({ resumen });
+    res.json({
+      totalProyectos: proyectos.length,
+      analisis: resumen,
+    });
+
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Error generando resumen" });
+    console.error("Error en análisis IA:", error);
+    res.status(500).json({
+      error: "Error generando análisis con IA",
+      details: error.message,
+    });
   }
 };

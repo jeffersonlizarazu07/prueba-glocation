@@ -13,11 +13,67 @@ import {
 const router = Router();
 
 // Endpoints adicionales para análisis y gráficos
+/**
+ * @swagger
+ * /proyectos/graficos:
+ *   get:
+ *     summary: Obtener estadísticas de proyectos para gráficos
+ *     tags: [Proyectos]
+ *     description: Retorna datos estadísticos agrupados por estado de proyectos para usar en gráficos.
+ *     responses:
+ *       200:
+ *         description: Datos generados correctamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 totalProyectos:
+ *                   type: integer
+ *                   example: 20
+ *                 proyectosPorEstado:
+ *                   type: object
+ *                   example:
+ *                     en progreso: 8
+ *                     pendiente: 6
+ *                     finalizado: 6
+ *       500:
+ *         description: Error interno del servidor
+ */
 
-router.get('/graficos', proyectGraphics);
+router.get("/graficos", proyectGraphics);
 
-router.get('/analisis/:id', proyectAnalysis);
+/**
+ * @swagger
+ * /proyectos/analisis:
+ *   get:
+ *     summary: Generar un análisis de proyectos con IA
+ *     tags: [Proyectos]
+ *     description: Analiza todas las descripciones de los proyectos existentes usando IA para generar un resumen general.
+ *     responses:
+ *       200:
+ *         description: Análisis generado correctamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 totalProyectos:
+ *                   type: integer
+ *                   example: 9
+ *                 analisis:
+ *                   type: string
+ *                   example: >
+ *                     Resumen de Proyectos:
+ *                     Los proyectos incluyen desarrollo de nuevas funciones,
+ *                     optimización, pruebas de calidad y mejoras de integración...
+ *       400:
+ *         description: No hay proyectos suficientes para analizar
+ *       500:
+ *         description: Error generando análisis con IA
+ */
 
+router.get("/analisis/", proyectAnalysis);
 
 /**
  * @swagger
