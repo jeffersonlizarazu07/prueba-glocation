@@ -1,10 +1,9 @@
-/* Modal Overlay */
+/* =======================
+   Modal Overlay
+======================= */
 .modal-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  inset: 0;
   background: rgba(0, 0, 0, 0.6);
   backdrop-filter: blur(4px);
   z-index: 1000;
@@ -13,15 +12,20 @@
   justify-content: center;
   padding: 20px;
   animation: fadeIn 0.3s ease-out;
-  pointer-events: auto;
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
-/* Modal Container */
+/* =======================
+   Modal Container
+======================= */
 .modal-container {
   background: var(--white);
   border-radius: 16px;
@@ -29,23 +33,27 @@
   width: 100%;
   max-width: 500px;
   max-height: 90vh;
+  display: flex;
+  flex-direction: column;
   animation: slideUp 0.3s ease-out;
-  pointer-events: auto;
+  overflow: hidden;
   z-index: 1001;
 }
 
 @keyframes slideUp {
-  from { 
-    opacity: 0; 
-    transform: translateY(30px) scale(0.95); 
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
   }
-  to { 
-    opacity: 1; 
-    transform: translateY(0) scale(1); 
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
   }
 }
 
-/* Modal Header */
+/* =======================
+   Modal Header
+======================= */
 .modal-header {
   display: flex;
   align-items: center;
@@ -62,6 +70,7 @@
   font-weight: 700;
 }
 
+/* Close Button */
 .modal-close {
   background: none;
   border: none;
@@ -74,8 +83,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  height: 36px;
 }
 
 .modal-close:hover {
@@ -84,11 +91,13 @@
   transform: scale(1.1);
 }
 
-/* Modal Form */
+/* =======================
+   Modal Form & Content
+======================= */
 .modal-form {
   display: flex;
   flex-direction: column;
-  height: calc(100% - 80px);
+  flex: 1;
 }
 
 .form-content {
@@ -97,9 +106,11 @@
   overflow-y: auto;
 }
 
-/* Form Groups */
+/* =======================
+   Form Groups
+======================= */
 .form-group {
-  margin-bottom: 0 20px 0 20px;
+  margin-bottom: 20px;
 }
 
 .form-group label {
@@ -119,11 +130,10 @@
   border-radius: 10px;
   font-size: 14px;
   background: var(--white);
+  color: var(--text);
   transition: all 0.2s ease;
   font-family: inherit;
-  color: var(--text);                
-  caret-color: var(--primary);       
-  -webkit-text-fill-color: var(--text);
+  caret-color: var(--primary);
 }
 
 .form-group input:focus,
@@ -146,14 +156,18 @@
   font-style: italic;
 }
 
-/* Form Row */
+/* =======================
+   Form Row
+======================= */
 .form-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 16px;
 }
 
-/* Modal Actions */
+/* =======================
+   Modal Actions (Buttons)
+======================= */
 .modal-actions {
   display: flex;
   gap: 12px;
@@ -174,31 +188,31 @@
   border: 2px solid transparent;
 }
 
+/* Botón Aceptar / Actualizar */
 .btnAceptOrUbdate {
   background: var(--primary);
   color: var(--white);
   border-color: var(--primary);
 }
 
-.btn-primary:hover:not(:disabled) {
+.btnAceptOrUbdate:hover:not(:disabled) {
   background: var(--primary-2);
   border-color: var(--primary-2);
   transform: translateY(-2px);
   box-shadow: 0 8px 25px rgba(31, 58, 147, 0.3);
 }
 
+/* Botón Cancelar */
 .btnCancel {
-  background: var(--white);
+  background: var(--danger);
   color: var(--white);
-  border-color: #f0eae2;
-  background-color: var(--danger);
+  border-color: transparent;
 }
 
-.btn-secondary:hover:not(:disabled) {
-  background: #f8fafc;
-  border-color: #cbd5e0;
+.btnCancel:hover:not(:disabled) {
+  background: #c53030;
   transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
 }
 
 .btn:disabled {
@@ -208,92 +222,56 @@
   box-shadow: none !important;
 }
 
-/* Asegura que el input date se vea correctamente */
+/* =======================
+   Input tipo Date
+======================= */
 .form-group input[type="date"] {
-  color: var(--text);
-  -webkit-text-fill-color: var(--text); /* importante para WebKit */
   background: var(--white);
-}
-
-/* Hace visible el icono del calendario en Chrome/Safari/Edge */
-.form-group input[type="date"]::-webkit-calendar-picker-indicator {
-  opacity: 1;
-  cursor: pointer;
-  filter: invert(0); /* evita que el icono se vea transparente */
-}
-
-/* Opcional: en Firefox */
-.form-group input[type="date"]::-moz-calendar-picker-indicator {
-  cursor: pointer;
-}
-
-.form-group input[type="date"] {
-  background: #a69d9d;      /* fondo blanco */
-  color: var(--text);       /* texto visible */
-  padding: 6px 12px;        /* padding cómodo para el botón */
-  border: 1px solid #e2e8f0;
-  border-radius: 8px;
-  -webkit-appearance: textfield; /* permite edición manual */
+  color: var(--text);
+  border: 2px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 12px 16px;
   appearance: textfield;
 }
 
-/* Icono del calendario */
 .form-group input[type="date"]::-webkit-calendar-picker-indicator {
-  opacity: 1 !important;          /* siempre visible */
+  opacity: 1 !important;
   cursor: pointer;
-  filter: invert(0);              /* evita que desaparezca con fondo blanco */
-  position: absolute;             /* asegura que se dibuje sobre el input */
-  right: 8px; 
+  filter: invert(0);
+  right: 8px;
+  position: absolute;
 }
 
-/* Mobile Responsive */
+/* =======================
+   Responsive
+======================= */
 @media (max-width: 768px) {
-  .modal-overlay {
-    padding: 10px;
-  }
-  
   .modal-container {
     max-width: 100%;
     max-height: 95vh;
   }
-  
-  .modal-header {
-    padding: 16px 20px;
-  }
-  
+
   .modal-header h3 {
     font-size: 1.2rem;
   }
-  
-  .form-content {
-    padding: 20px;
-  }
-  
+
   .form-row {
     grid-template-columns: 1fr;
-    gap: 12px;
   }
-  
+
   .modal-actions {
-    padding: 16px 20px;
     flex-direction: column;
   }
-  
+
   .modal-actions .btn {
     width: 100%;
   }
 }
 
 @media (max-width: 480px) {
-  .modal-header {
-    padding: 12px 16px;
-  }
-  
-  .form-content {
-    padding: 16px;
-  }
-  
+  .modal-header,
+  .form-content,
   .modal-actions {
-    padding: 12px 16px;
+    padding: 16px;
   }
 }

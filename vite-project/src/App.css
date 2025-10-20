@@ -3,6 +3,7 @@
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+  background: var(--white);
 }
 
 .logo {
@@ -31,6 +32,8 @@
   }
 }
 
+/* Responsive */
+
 @media (prefers-reduced-motion: no-preference) {
   a:nth-of-type(2) .logo {
     animation: logo-spin infinite 20s linear;
@@ -43,4 +46,45 @@
 
 .read-the-docs {
   color: #888;
+}
+
+@media screen and (max-width: 1024px) {
+  #root {
+    max-width: 100%;
+    padding: 1.5rem;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  #root {
+    padding: 1rem;
+    text-align: left; /* más natural en móvil */
+  }
+
+  .card {
+    padding: 1rem;
+  }
+
+  .logo {
+    height: 4em;
+    padding: 1em;
+  }
+
+  .read-the-docs {
+    font-size: 0.9rem;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  #root {
+    padding: 0.75rem;
+  }
+
+  .logo {
+    height: 3.5em;
+  }
+
+  .card {
+    padding: 0.75rem;
+  }
 }

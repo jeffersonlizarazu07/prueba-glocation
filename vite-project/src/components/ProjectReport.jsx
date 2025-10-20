@@ -166,17 +166,8 @@ export default function ProjectReport({
       </div>
 
       {/* Gráfico de barras: estados */}
-      <div
-        className="report-body"
-        style={{
-          display: "flex",
-          gap: 24,
-          alignItems: "flex-start",
-          padding: 24,
-          flexWrap: "wrap",
-        }}
-      >
-        <div className="chart" style={{ flex: 2, minWidth: 280, height: 350 }}>
+      <div className="report-body">
+        <div className="chart">
           {values.length === 0 ? (
             <p className="muted">
               No hay datos suficientes para generar gráficos.
@@ -205,7 +196,7 @@ export default function ProjectReport({
           )}
         </div>
 
-        <div className="summary" style={{ flex: 1, minWidth: 200 }}>
+        <div className="summary">
           <h4>Estadísticas</h4>
           <p className="muted">
             Total de proyectos:{" "}
@@ -232,26 +223,10 @@ export default function ProjectReport({
 
       {/* Gráfico tipo torta: proyectos por año según fechaInicio */}
       <div>
-        <h3 style={{marginTop: "30px"}}>Proyectos por año de inicio</h3>
+        <h3 className="section-title">Proyectos por año de inicio</h3>
       </div>
-      <div
-        className="report-body"
-        style={{
-          display: "flex",
-          gap: 24,
-          alignItems: "flex-start",
-          padding: 24,
-          flexWrap: "wrap",
-        }}
-      >
-        <div
-          className="chart"
-          style={{
-            flex: 2,
-            minWidth: 280,
-            height: 350,
-          }}
-        >
+      <div className="report-body">
+        <div className="chart">
           {yearValues.length === 0 ? (
             <p className="muted">
               No hay fechas de inicio válidas para graficar.
@@ -290,7 +265,7 @@ export default function ProjectReport({
           )}
         </div>
 
-        <div className="summary" style={{ flex: 1, minWidth: 200 }}>
+        <div className="summary">
           <h4>Estadísticas por año de inicio</h4>
           <p className="muted">
             Total proyectos:{" "}
