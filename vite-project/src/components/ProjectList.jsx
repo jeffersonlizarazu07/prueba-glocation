@@ -2,7 +2,9 @@ import "../styles/ProjectList.css";
 import { eliminar } from "../services/api";
 
 export default function ProjectList({ data = [], onEdit, onChange }) {
+  // Eliminar proyecto
   const doDelete = async (id) => {
+    // Confirmar eliminación
     if (!confirm("¿Eliminar proyecto?")) return;
     try {
       await eliminar(id);

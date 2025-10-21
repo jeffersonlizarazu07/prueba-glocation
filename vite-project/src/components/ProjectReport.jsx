@@ -21,15 +21,17 @@ ChartJS.register(
   Legend
 );
 
+// Componente del reporte
 export default function ProjectReport({
   data = [], // puede ser [{estado, count}] o lista de proyectos
   visible = false,
   projects = [], // fallback: lista completa de proyectos
   onBack = () => {},
 }) {
+  // No renderiza si no es visible
   if (!visible) return null;
 
-  // --- Aggregation por estado (mantener gráfico de barras) ---
+  // Aggregation por estado - gráfico de barras
   const aggregated =
     data.length > 0 && Object.prototype.hasOwnProperty.call(data[0], "count")
       ? data
@@ -43,6 +45,7 @@ export default function ProjectReport({
           const map = {};
           items.forEach((p) => {
             let estadoLabel = "Desconocido";
+            // Lógica robusta para extraer el estado
             if (!p) {
               estadoLabel = "Desconocido";
             } else if (typeof p.estado === "string" && p.estado.trim() !== "") {
@@ -63,15 +66,18 @@ export default function ProjectReport({
 
             map[estadoLabel] = (map[estadoLabel] || 0) + 1;
           });
+          // Convierte el mapa a array
           return Object.entries(map).map(([estado, count]) => ({
             estado,
             count,
           }));
         })();
 
+  // Datos para el gráfico de barras
   const labels = aggregated.map((d) => d.estado);
   const values = aggregated.map((d) => d.count);
 
+  // Colores para aplicar al gráfico de barras
   const colors = [
     "#4f46e5",
     "#06b6d4",
@@ -82,8 +88,10 @@ export default function ProjectReport({
     "#f97316",
     "#06b6a4",
   ];
+  // Asigna colores cíclicamente
   const backgroundColors = labels.map((_, i) => colors[i % colors.length]);
 
+  // Configuración de la gráfica de barras
   const chartData = {
     labels,
     datasets: [
@@ -96,7 +104,7 @@ export default function ProjectReport({
     ],
   };
 
-  // --- Agrupar por año usando fecha de inicio (para la torta abajo) ---
+  // Agrupar por año usando fecha de inicio
   const rawItems =
     projects.length > 0
       ? projects
@@ -104,6 +112,7 @@ export default function ProjectReport({
       ? data
       : [];
 
+  // Construir el mapa de años
   const yearMap = {};
   rawItems.forEach((p) => {
     if (!p) return;
@@ -117,13 +126,16 @@ export default function ProjectReport({
     ];
     const dateStr = dateCandidates.find((c) => c != null);
     let d = null;
+    // Lógica robusta para parsear la fecha
     if (dateStr instanceof Date) d = dateStr;
     else if (typeof dateStr === "number") d = new Date(dateStr);
     else if (typeof dateStr === "string") {
       d = new Date(dateStr);
+      // intentar parsear si la fecha no es válida
       if (isNaN(d)) {
         // intentar parsear si viene en formato "YYYY-MM-DD" sin zona
         const parts = dateStr.split("-");
+        // Si tiene al menos año, mes, día
         if (parts.length >= 3) {
           const y = Number(parts[0]);
           const m = Number(parts[1]) - 1;
@@ -132,16 +144,19 @@ export default function ProjectReport({
         }
       }
     }
+    // Valida que la fecha sea válida antes de procesarla
     if (d instanceof Date && !isNaN(d)) {
       const y = String(d.getFullYear());
       yearMap[y] = (yearMap[y] || 0) + 1;
     }
   });
 
+  // Ordenar etiquetas y valores
   const yearLabels = Object.keys(yearMap).sort((a, b) => Number(a) - Number(b));
   const yearValues = yearLabels.map((y) => yearMap[y] || 0);
   const yearColors = yearLabels.map((_, i) => colors[(i + 2) % colors.length]);
 
+  // Configuración del gráfico tipo torta para años
   const yearPieData = {
     labels: yearLabels,
     datasets: [

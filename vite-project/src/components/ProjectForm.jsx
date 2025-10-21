@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "../styles/ProjectForm.css";
 import { crear, actualizar } from "../services/api";
 
+// Estado inicial del formulario
 const empty = {
   nombre: "",
   descripcion: "",
@@ -26,6 +27,7 @@ export default function ProjectForm({ onDone, editing, onCancel }) {
     return () => document.removeEventListener("keydown", handleEscape);
   }, [onCancel, loading]);
 
+  // Carga datos si es edición
   useEffect(() => {
     if (editing) {
       setForm({
@@ -42,10 +44,12 @@ export default function ProjectForm({ onDone, editing, onCancel }) {
 
   const handle = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
+  // Enviar formulario
   const submit = async (e) => {
     e.preventDefault();
     setLoading(true);
     try {
+      // Prepara el payload para la API
       const payload = {
         nombre: form.nombre,
         descripcion: form.descripcion,
@@ -55,6 +59,7 @@ export default function ProjectForm({ onDone, editing, onCancel }) {
           : null,
         fechaFin: form.fechaFin ? new Date(form.fechaFin).toISOString() : null,
       };
+      // Validar si es edición o creación
       if (editing && editing.id) {
         await actualizar(editing.id, payload);
       } else {
@@ -69,6 +74,7 @@ export default function ProjectForm({ onDone, editing, onCancel }) {
     }
   };
 
+  // Cerrar mosal al seleccionar el overlay
   const handleOverlayClick = (e) => {
     if (e.target === e.currentTarget && !loading) {
       onCancel();
