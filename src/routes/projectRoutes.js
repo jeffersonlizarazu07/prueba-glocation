@@ -1,14 +1,15 @@
 import { Router } from "express";
 
 import {
-  createProyect,
-  listProyects,
-  getProyect,
-  updateProyect,
-  deleteProyect,
-  proyectGraphics,
-  proyectAnalysis,
-} from "../controllers/proyectControllers.js";
+  createProject,
+  listProjects,
+  getProject,
+  updateProject,
+  deleteProject,
+} from "../controllers/projectControllers.js";
+
+import { projectGraphics } from "../controllers/projectGraphics.js";
+import { projectAnalysis } from "../controllers/projectAnalysis.js";
 
 const router = Router();
 
@@ -41,7 +42,7 @@ const router = Router();
  *         description: Error interno del servidor
  */
 
-router.get("/graficos", proyectGraphics);
+router.get("/graficos", projectGraphics);
 
 /**
  * @swagger
@@ -73,7 +74,7 @@ router.get("/graficos", proyectGraphics);
  *         description: Error generando análisis con IA
  */
 
-router.get("/analisis/", proyectAnalysis);
+router.get("/analisis/", projectAnalysis);
 
 /**
  * @swagger
@@ -98,7 +99,7 @@ router.get("/analisis/", proyectAnalysis);
  *         description: Error creando proyecto
  */
 
-router.post("/", createProyect); // Crear
+router.post("/", createProject); // Crear
 
 /**
  * @swagger
@@ -119,7 +120,7 @@ router.post("/", createProyect); // Crear
  *         description: Error listando proyectos
  */
 
-router.get("/", listProyects); // Listar
+router.get("/", listProjects); // Listar
 
 /**
  * @swagger
@@ -146,7 +147,7 @@ router.get("/", listProyects); // Listar
  *         description: Error obteniendo proyecto
  */
 
-router.get("/:id", getProyect); // Obtener uno
+router.get("/:id", getProject); // Obtener uno
 
 /**
  * @swagger
@@ -175,7 +176,7 @@ router.get("/:id", getProyect); // Obtener uno
  *         description: Error actualizando proyecto
  */
 
-router.put("/:id", updateProyect); // Actualizar
+router.put("/:id", updateProject); // Actualizar
 
 /**
  * @swagger
@@ -198,6 +199,6 @@ router.put("/:id", updateProyect); // Actualizar
  *         description: Error eliminando proyecto
  */
 
-router.delete("/:id", deleteProyect); // Eliminar
+router.delete("/:id", deleteProject); // Eliminar
 
 export default router;

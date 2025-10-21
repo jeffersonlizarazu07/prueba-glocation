@@ -2,17 +2,17 @@ import express from 'express';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import { PORT } from './config.js';
-import proyectRouter from '../src/routes/proyectRoutes.js';
+import projectRouter from '../src/routes/projectRoutes.js';
 import swaggerUi from 'swagger-ui-express';
 import swaggerSpec from './swagger.js';
 
 const app = express();
 app.use(express.json());
 
-app.use(cors());
+app.use(cors()); // Habilita cors para todas las rutas
 app.use(bodyParser.json());
-app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-app.use('/api/proyectos', proyectRouter);
+app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));// Documentación Swagger
+app.use('/api/proyectos', projectRouter); // Ruta general
 
 app.get('/', (req, res) => res.json({ ok: true, msg: 'API Backend funcionando' }));
 

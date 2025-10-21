@@ -8,11 +8,14 @@ generator client {
   provider = "prisma-client-js"
 }
 
+// Configuración de conexión a base de datos PostgreSQL
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
+// Modelo de datos para gestión de proyectos
+// Almacena información básica y temporal de cada proyecto
 model Proyecto {
   id           Int      @id @default(autoincrement())
   nombre       String
