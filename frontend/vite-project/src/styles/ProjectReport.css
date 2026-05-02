@@ -1,0 +1,170 @@
+.report-card h3 {
+  margin: 0;
+  font-size: 1.4rem;
+  color: var(--primary);
+}
+
+.report-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.report-header .controls {
+  display: flex;
+  gap: 8px;
+}
+
+.section-title {
+  margin-top: 30px !important;
+}
+
+.report-body {
+  display: flex;
+  gap: 24px;
+  margin-top: 15px;
+  align-items: stretch;
+  padding: 24px;
+  flex-wrap: wrap;
+}
+
+.chart {
+  flex: 2;
+  min-width: 280px;
+  padding: 15px;
+  background: var(--white);
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(15, 23, 42, 0.08);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  flex-direction: column;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  max-height: 600px
+}
+
+.summary {
+  flex: 1;
+  padding: 20px;
+  background: linear-gradient(135deg, #e0f2fe 0%, #b3e5fc 100%);
+  border-radius: 12px;
+  border: 1px solid #81d4fa;
+  box-shadow: 0 4px 12px rgba(129, 212, 250, 0.2);
+  overflow-y: auto;
+  max-height: 600px;
+  min-width: 200px;
+  display: flex;
+  flex-direction: column;
+}
+
+.summary h4 {
+  margin: 0 0 15px 0;
+  color: #0277bd;
+  font-size: 1.2rem;
+}
+
+.summary ul {
+  padding-left: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.summary li {
+  margin: 8px 0;
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 6px;
+  border-left: 3px solid #0277bd;
+}
+
+.summary li strong {
+  color: #01579b;
+}
+
+/* Chart container styling */
+.chart canvas {
+  flex-grow: 1;
+  width: 100% !important;
+  height: 100% !important;
+  max-height: none;
+  flex-grow: 1;
+}
+
+/* Empty state for charts */
+.chart .muted {
+  text-align: center;
+  color: var(--muted);
+  font-style: italic;
+  padding: 40px 20px;
+}
+
+/* Mobile responsive */
+@media (max-width: 900px) {
+  .report-body {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .summary {
+    order: 2;
+    max-height: none;
+  }
+
+  .chart {
+    order: 1;
+  }
+
+  .report-header {
+    flex-direction: column;
+    gap: 15px;
+    align-items: stretch;
+  }
+
+  .report-header .controls {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 600px) {
+  .chart {
+    padding: 10px;
+  }
+
+  .summary {
+    padding: 15px;
+  }
+
+  .summary h4 {
+    font-size: 1rem;
+  }
+
+  .summary li {
+    padding: 6px 10px;
+    font-size: 14px;
+  }
+
+  .report-header h3 {
+    font-size: 1.2rem;
+  }
+
+  .chart canvas {
+    max-height: 300px;
+  }
+}
+
+/* 📱 Móviles muy pequeños */
+@media (max-width: 400px) {
+  .summary li {
+    font-size: 13px;
+  }
+
+  .summary h4 {
+    font-size: 0.95rem;
+  }
+
+  .chart {
+    padding: 8px;
+  }
+}
