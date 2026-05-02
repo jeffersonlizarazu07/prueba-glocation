@@ -1,5 +1,6 @@
 import swaggerJSDoc from 'swagger-jsdoc';
 
+// Definición básica de Swagger
 const swaggerDefinition = {
   openapi: '3.0.0',
   info: {
@@ -52,11 +53,12 @@ const swaggerDefinition = {
   },
 };
 
+// Opciones Swagger Jsdoc
 const options = {
   swaggerDefinition,
   apis: ['./src/routes/*.js'], // Aquí busca los comentarios en tus rutas
 };
 
-const swaggerSpec = swaggerJSDoc(options);
+const swaggerSpec = swaggerJSDoc(options); // Especificación de Swagger
 
 export default swaggerSpec;
